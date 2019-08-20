@@ -9,4 +9,4 @@ before_script:
   - travis_retry composer install --no-scripts --no-interaction
   - travis_retry composer self-update
 
-script: vendor/bin/phpunit
+script: ./bin/phpunit
