@@ -6,7 +6,7 @@ before_script:
   - cp .env.travis .env
   - sudo service mysql start
   - mysql -e 'create database if not exists work_tracker;'
-  - travis_retry composer install --no-interaction
   - travis_retry composer self-update
+  - travis_retry composer install --no-interaction
 
 script: vendor/bin/phpunit
