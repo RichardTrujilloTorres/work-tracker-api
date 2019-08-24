@@ -52,6 +52,22 @@ class CommitRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function findByRepository(string $name): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.repository= :val')
+            ->setParameter('val', $name)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Commit[] Returns an array of Commit objects
     //  */
