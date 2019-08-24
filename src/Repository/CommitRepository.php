@@ -15,6 +15,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class CommitRepository extends ServiceEntityRepository
 {
+    const DEFAULT_MAX_RESULTS = 1000;
+
     use Deletes;
 
     public function __construct(ManagerRegistry $registry)
@@ -46,7 +48,7 @@ class CommitRepository extends ServiceEntityRepository
             ->andWhere('c.branch= :val')
             ->setParameter('val', $name)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(100)
+            ->setMaxResults(self::DEFAULT_MAX_RESULTS)
             ->getQuery()
             ->getResult()
             ;
@@ -62,7 +64,7 @@ class CommitRepository extends ServiceEntityRepository
             ->andWhere('c.repository= :val')
             ->setParameter('val', $name)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(100)
+            ->setMaxResults(self::DEFAULT_MAX_RESULTS)
             ->getQuery()
             ->getResult()
             ;
