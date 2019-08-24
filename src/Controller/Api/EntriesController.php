@@ -4,7 +4,6 @@ namespace App\Controller\Api;
 
 use App\Entity\Entry;
 use App\Exception\NotFoundException;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -13,16 +12,14 @@ use Symfony\Component\Routing\Annotation\Route;
  * Class EntriesController
  * @package App\Controller\Api
  */
-class EntriesController extends AbstractController
+class EntriesController extends BaseController
 {
     /**
-     * @Route("/api/entries", name="api.entries", methods={"GET"})
+     * @Route("/api/entries", methods={"GET"}, name="api.entries.index")
      */
     public function index()
     {
-        $entryRepository = $this->getDoctrine()->getRepository(Entry::class);
-
-        $entries = $entryRepository->findAll();
+        $entries = $this->getRepository()->findAll();
 
         return $this->json([
             'data' => compact('entries'),
@@ -48,7 +45,9 @@ class EntriesController extends AbstractController
     }
 
     /**
-     * @Route("api/entries", methods={"POST"})
+     * @Route("api/entries", methods={"POST"}, name="api.entries.store")
+     * @param Request $request
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
@@ -62,10 +61,10 @@ class EntriesController extends AbstractController
     }
 
     /**
-     * @return \Doctrine\Common\Persistence\ObjectRepository
+     * @return String
      */
-    protected function getRepository()
+    public function getEntity(): String
     {
-        return $this->getDoctrine()->getRepository(Entry::class);
+        return Entry::class;
     }
 }
