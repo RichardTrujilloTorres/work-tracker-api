@@ -25,7 +25,7 @@ class EntryRepository extends ServiceEntityRepository
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createEntry(array $data): Entry
+    public function create(array $data): Entry
     {
         $entry = new Entry();
         $entry->setDescription($data['description']);
