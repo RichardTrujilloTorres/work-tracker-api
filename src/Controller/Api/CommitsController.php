@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Commit;
 use App\Exception\NotFoundException;
+use App\Exception\ParamMissingException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -41,6 +42,25 @@ class CommitsController extends BaseController
 
         return $this->json([
             'data' => compact('commit'),
+        ]);
+    }
+
+    /**
+     * @Route("/api/commits/get-by-branch", methods={"GET"}, name="api.commits.get-by-branch")
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ParamMissingException
+     */
+    public function getByBranch(Request $request)
+    {
+        if (! $request->query->has('name')) {
+            throw new ParamMissingException("Branch name missing");
+        }
+
+        $commits = $this->getRepository()->findByBranch($request->query->get('name'));
+
+        return $this->json([
+            'data' => compact('commits'),
         ]);
     }
 
