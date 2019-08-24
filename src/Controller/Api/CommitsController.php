@@ -65,6 +65,25 @@ class CommitsController extends BaseController
     }
 
     /**
+     * @Route("/api/commits/get-by-repository", methods={"GET"}, name="api.commits.get-by-repository")
+     * @param Request $request
+     * @return JsonResponse
+     * @throws ParamMissingException
+     */
+    public function getByRepository(Request $request)
+    {
+        if (! $request->query->has('name') || empty($request->query->get('name'))) {
+            throw new ParamMissingException("Repository name missing");
+        }
+
+        $commits = $this->getRepository()->findByRepository($request->query->get('name'));
+
+        return $this->json([
+            'data' => compact('commits'),
+        ]);
+    }
+
+    /**
      * @Route("api/commits", methods={"POST"}, name="api.commits.store")
      * @param Request $request
      * @return JsonResponse
