@@ -59,6 +59,20 @@ class CommitsController extends BaseController
     }
 
     /**
+     * @Route("api/commits/{id<\d+>}", methods={"DELETE"}, name="api.commits.delete")
+     * @param $id
+     * @return JsonResponse
+     */
+    public function delete($id)
+    {
+        $this->getRepository()->delete($id);
+
+        return $this->json([
+            'data' => [],
+        ], 200);
+    }
+
+    /**
      * @return String
      */
     public function getEntity(): String

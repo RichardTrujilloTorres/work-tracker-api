@@ -61,6 +61,20 @@ class EntriesController extends BaseController
     }
 
     /**
+     * @Route("api/entries/{id<\d+>}", methods={"DELETE"}, name="api.entries.delete")
+     * @param $id
+     * @return JsonResponse
+     */
+    public function delete($id)
+    {
+        $this->getRepository()->delete($id);
+
+        return $this->json([
+            'data' => [],
+        ], 200);
+    }
+
+    /**
      * @return String
      */
     public function getEntity(): String
