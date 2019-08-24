@@ -27,7 +27,7 @@ class CommitsController extends BaseController
     }
 
     /**
-     * @Route("/api/commits/{id<\d+>}", name="api.commits.show")
+     * @Route("/api/commits/{id<\d+>}", methods={"GET"}, name="api.commits.show")
      * @param int $id
      * @return JsonResponse
      * @throws NotFoundException
