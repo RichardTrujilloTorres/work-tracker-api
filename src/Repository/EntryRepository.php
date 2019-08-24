@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Entry;
+use App\Exception\NotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -36,6 +37,23 @@ class EntryRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
 
         return $entry;
+    }
+
+    /**
+     * @param int $id
+     * @throws NotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function delete(int $id)
+    {
+        $entry = $this->find($id);
+        if (! $entry) {
+            throw new NotFoundException('Could not find entry with ID '. $id);
+        }
+
+        $this->getEntityManager()->remove($entry);
+        $this->getEntityManager()->flush();
     }
 
     // /**
