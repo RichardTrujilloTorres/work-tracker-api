@@ -36,6 +36,22 @@ class CommitRepository extends ServiceEntityRepository
         return $commit;
     }
 
+    /**
+     * @param string $name
+     * @return array
+     */
+    public function findByBranch(string $name): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.branch= :val')
+            ->setParameter('val', $name)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(100)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Commit[] Returns an array of Commit objects
     //  */
