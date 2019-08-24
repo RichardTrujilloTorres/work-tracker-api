@@ -53,7 +53,7 @@ class CommitsController extends BaseController
      */
     public function getByBranch(Request $request)
     {
-        if (! $request->query->has('name')) {
+        if (! $request->query->has('name') || empty($request->query->get('name'))) {
             throw new ParamMissingException("Branch name missing");
         }
 
