@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Exception\NotFoundException;
+use App\Exception\ParamMissingException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
@@ -23,6 +24,13 @@ class ExceptionListener
                 'message' => $exception->getMessage(),
                 'status' => 'error'
             ], 404));
+        }
+
+        if ($exception instanceof ParamMissingException) {
+            $event->setResponse(new JsonResponse([
+                'message' => $exception->getMessage(),
+                'status' => 'error'
+            ], 422));
         }
     }
 }
