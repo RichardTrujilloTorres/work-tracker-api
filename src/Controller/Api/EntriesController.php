@@ -27,7 +27,7 @@ class EntriesController extends BaseController
     }
 
     /**
-     * @Route("/api/entries/{id<\d+>}", name="api.entries.show")
+     * @Route("/api/entries/{id<\d+>}", methods={"GET"}, name="api.entries.show")
      * @param int $id
      * @return JsonResponse
      * @throws NotFoundException
