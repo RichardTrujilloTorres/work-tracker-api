@@ -7,6 +7,7 @@ use App\Exception\NotFoundException;
 use App\Exception\ParamMissingException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -22,9 +23,7 @@ class CommitsController extends BaseController
     {
         $commits = $this->getRepository()->findAll();
 
-        return $this->json([
-            'data' => compact('commits'),
-        ]);
+        return $this->jsonWithContext(['data' => compact('commits')]);
     }
 
     /**
@@ -40,9 +39,7 @@ class CommitsController extends BaseController
             throw new NotFoundException('Could not find commit with ID '. $id);
         }
 
-        return $this->json([
-            'data' => compact('commit'),
-        ]);
+        return $this->jsonWithContext(['data' => compact('commit')]);
     }
 
     /**
@@ -59,7 +56,7 @@ class CommitsController extends BaseController
 
         $commits = $this->getRepository()->findByBranch($request->query->get('name'));
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => compact('commits'),
         ]);
     }
@@ -78,7 +75,7 @@ class CommitsController extends BaseController
 
         $commits = $this->getRepository()->findByRepository($request->query->get('name'));
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => compact('commits'),
         ]);
     }
@@ -92,9 +89,9 @@ class CommitsController extends BaseController
     {
         $commit = $this->getRepository()->create($request->request->all());
 
-        return $this->json([
-            'data' => compact('commit')
-        ], 201);
+        return $this->jsonWithContext([
+            'data' => compact('commit'),
+        ], Response::HTTP_CREATED);
     }
 
     /**
