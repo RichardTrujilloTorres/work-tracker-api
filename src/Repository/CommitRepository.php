@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Commit;
+use App\Entity\Entry;
+use App\Exception\NotFoundException;
 use App\Repository\Traits\Deletes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -29,8 +31,18 @@ class CommitRepository extends ServiceEntityRepository
         $commit = new Commit();
         $commit->setBranch($data['branch']);
         $commit->setRepository($data['repository']);
-        $commit->setCommits((int) $data['commits']);
+        $commit->setCommitsNumber((int) $data['commits']);
         $commit->setDate(new \DateTime($data['date']));
+
+        if (! empty($data['entry_id'])) {
+            $entryRepository = $this->getEntityManager()->getRepository(Entry::class);
+            $entry = $entryRepository->find($data['entry_id']);
+            if (empty($entry)) {
+                throw new NotFoundException("Could not find entry with ID ". $data['entry_id']);
+            }
+
+            $commit->setEntry($entry);
+        }
 
         $this->getEntityManager()->persist($commit);
         $this->getEntityManager()->flush();
