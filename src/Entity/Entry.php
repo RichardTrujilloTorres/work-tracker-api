@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +32,16 @@ class Entry
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commit", mappedBy="entry")
+     */
+    private $commits;
+
+    public function __construct()
+    {
+        $this->commits = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -68,6 +80,37 @@ class Entry
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commit[]
+     */
+    public function getCommits(): Collection
+    {
+        return $this->commits;
+    }
+
+    public function addCommit(Commit $commit): self
+    {
+        if (!$this->commits->contains($commit)) {
+            $this->commits[] = $commit;
+            $commit->setEntry($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommit(Commit $commit): self
+    {
+        if ($this->commits->contains($commit)) {
+            $this->commits->removeElement($commit);
+            // set the owning side to null (unless already changed)
+            if ($commit->getEntry() === $this) {
+                $commit->setEntry(null);
+            }
+        }
 
         return $this;
     }

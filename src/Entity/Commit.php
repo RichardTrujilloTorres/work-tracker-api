@@ -29,12 +29,17 @@ class Commit
     /**
      * @ORM\Column(type="integer")
      */
-    private $commits;
+    private $commitsNumber;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Entry", inversedBy="commits")
+     */
+    private $entry;
 
     public function getId(): ?int
     {
@@ -65,14 +70,14 @@ class Commit
         return $this;
     }
 
-    public function getCommits(): ?int
+    public function getCommitsNumber(): ?int
     {
-        return $this->commits;
+        return $this->commitsNumber;
     }
 
-    public function setCommits(int $commits): self
+    public function setCommitsNumber(int $commits): self
     {
-        $this->commits = $commits;
+        $this->commitsNumber = $commits;
 
         return $this;
     }
@@ -85,6 +90,18 @@ class Commit
     public function setDate(\DateTimeInterface $date): self
     {
         $this->date = $date;
+
+        return $this;
+    }
+
+    public function getEntry(): ?Entry
+    {
+        return $this->entry;
+    }
+
+    public function setEntry(?Entry $entry): self
+    {
+        $this->entry = $entry;
 
         return $this;
     }
