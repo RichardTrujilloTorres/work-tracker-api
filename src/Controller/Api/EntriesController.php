@@ -54,7 +54,7 @@ class EntriesController extends BaseController
     {
         // TODO request validation
 
-        $entry = $this->getRepository()->createEntry($request->request->all());
+        $entry = $this->getRepository()->create($request->request->all());
 
         return $this->jsonWithContext([
             'data' => compact('entry')
