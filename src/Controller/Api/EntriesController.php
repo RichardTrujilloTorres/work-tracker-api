@@ -6,6 +6,7 @@ use App\Entity\Entry;
 use App\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -21,7 +22,7 @@ class EntriesController extends BaseController
     {
         $entries = $this->getRepository()->findAll();
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => compact('entries'),
         ]);
     }
@@ -39,7 +40,7 @@ class EntriesController extends BaseController
             throw new NotFoundException('Could not find entry with ID '. $id);
         }
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => compact('entry'),
         ]);
     }
@@ -55,9 +56,9 @@ class EntriesController extends BaseController
 
         $entry = $this->getRepository()->createEntry($request->request->all());
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => compact('entry')
-        ], 201);
+        ], Response::HTTP_CREATED);
     }
 
     /**
@@ -69,9 +70,9 @@ class EntriesController extends BaseController
     {
         $this->getRepository()->delete($id);
 
-        return $this->json([
+        return $this->jsonWithContext([
             'data' => [],
-        ], 200);
+        ]);
     }
 
     /**
