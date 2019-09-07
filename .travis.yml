@@ -9,4 +9,6 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update --no-scripts --no-interaction
 
+services: mysql
+
 script: ./bin/phpunit
