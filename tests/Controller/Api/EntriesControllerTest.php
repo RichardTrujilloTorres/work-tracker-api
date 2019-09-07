@@ -3,6 +3,7 @@
 namespace App\Tests\Controller\Api;
 
 use App\Entity\Entry;
+use App\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 class EntriesControllerTest extends BaseControllerTest
@@ -43,6 +44,21 @@ class EntriesControllerTest extends BaseControllerTest
             $this->jsonWithContext([
                 'data' => compact('entry'),
             ])->getContent()
+        );
+    }
+
+    /**
+     * @test Throws a NotFoundException
+     */
+    public function throwsNotFoundException()
+    {
+        $nonExistingEntryId = 999999;
+
+        $this->client->request('GET', '/api/entries/' . $nonExistingEntryId);
+
+        $this->assertContains(
+            (new NotFoundException('Could not find entry with ID '. $nonExistingEntryId))->getMessage(),
+            $this->client->getResponse()->getContent()
         );
     }
 }
