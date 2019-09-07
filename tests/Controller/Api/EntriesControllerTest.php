@@ -25,7 +25,7 @@ class EntriesControllerTest extends BaseControllerTest
      */
     public function testShow()
     {
-        $this->client->request('GET', '/api/entries/3');
+        $this->client->request('GET', '/api/entries/1');
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -37,7 +37,7 @@ class EntriesControllerTest extends BaseControllerTest
          */
         $entry = $this->entityManager
             ->getRepository(Entry::class)
-            ->find(3);
+            ->find(1);
 
         $this->assertEquals(
             $this->client->getResponse()->getContent(),
