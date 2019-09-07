@@ -8,8 +8,8 @@ before_script:
   - mysql -e 'create database if not exists work_tracker_test;'
   - travis_retry composer self-update
   - travis_retry composer update --no-scripts --no-interaction
-  - php bin/console doctrine:schema:create
-  - php bin/console doctrine:fixtures:load --env=test
+  - php bin/console doctrine:migration:migrate --env=test --no-interaction
+  - php bin/console doctrine:fixtures:load --env=test --no-interaction
 
 services: mysql
 
