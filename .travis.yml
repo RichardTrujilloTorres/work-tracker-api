@@ -5,7 +5,7 @@ php: 7.1
 before_script:
   - cp .env.travis .env
   - sudo service mysql start
-  - mysql -e 'create database if not exists work_tracker;'
+  - mysql -e 'create database if not exists work_tracker_test;'
   - travis_retry composer self-update
   - travis_retry composer update --no-scripts --no-interaction
 
