@@ -53,8 +53,9 @@ class EntriesController extends BaseController
     public function store(Request $request)
     {
         // TODO request validation
+        $content = json_decode($request->getContent());
 
-        $entry = $this->getRepository()->create($request->request->all());
+        $entry = $this->getRepository()->create((array) $content);
 
         return $this->jsonWithContext([
             'data' => compact('entry')
