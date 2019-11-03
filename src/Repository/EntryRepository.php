@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Entry;
 use App\Exception\NotFoundException;
+use App\Repository\Traits\Deletes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -15,6 +16,8 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  */
 class EntryRepository extends ServiceEntityRepository
 {
+    use Deletes;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Entry::class);
