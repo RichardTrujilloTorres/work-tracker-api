@@ -1,3 +1,8 @@
+env:
+  - JWT_SECRET_KEY="./config/jwt/private.pem"
+  - JWT_PUBLIC_KEY="./config/jwt/public.pem"
+  - JWT_PASSPHRASE="secret"
+
 language: php
 
 php: 7.1
