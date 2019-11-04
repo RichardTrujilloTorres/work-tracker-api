@@ -21,6 +21,11 @@ abstract class BaseControllerTest extends WebTestCase
      */
     protected $entityManager;
 
+    /**
+     * @var
+     */
+    protected $token;
+
 
     /**
      * @inheritdoc
@@ -33,6 +38,32 @@ abstract class BaseControllerTest extends WebTestCase
         $this->entityManager = $kernel->getContainer()
             ->get('doctrine')
             ->getManager();
+
+        $this->logIn();
+    }
+
+    /**
+     * Logs the user in.
+     */
+    protected function logIn(): void
+    {
+        $result = $this->client->request(
+            'POST',
+            '/api/login_check',
+        [],
+        [],
+        [
+            'CONTENT_TYPE' => 'application/json',
+            'ACCEPT_ENCODING' => 'application/json',
+        ],
+        json_encode([
+            'username' => 'richard.trujillo.torres@gmail.com',
+            'password' => 'secret',
+        ])
+        );
+
+        $content = json_decode($this->client->getResponse()->getContent());
+        $this->token = $content->token;
     }
 
     /**
