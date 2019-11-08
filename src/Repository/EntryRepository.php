@@ -2,11 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Commit;
 use App\Entity\Entry;
 use App\Exception\NotFoundException;
 use App\Repository\Traits\Deletes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -18,9 +20,15 @@ class EntryRepository extends ServiceEntityRepository
 {
     use Deletes;
 
-    public function __construct(ManagerRegistry $registry)
+    /**
+     * @var CommitRepository
+     */
+    private $commitsRepository;
+
+    public function __construct(ManagerRegistry $registry, CommitRepository $commitRepository)
     {
         parent::__construct($registry, Entry::class);
+        $this->commitsRepository = $commitRepository;
     }
 
     /**
@@ -57,6 +65,48 @@ class EntryRepository extends ServiceEntityRepository
 
         $this->getEntityManager()->remove($entry);
         $this->getEntityManager()->flush();
+    }
+
+    public function associate(int $id, array $sha)
+    {
+        $entry = $this->find($id);
+        if (! $entry) {
+            throw new NotFoundException('Could not find entry with ID '. $id);
+        }
+
+        $commits = $this->commitsRepository->findBySha($sha);
+        $foundShas = [];
+        /**
+         * @var $commit Commit
+         */
+        foreach ($commits as $commit) {
+            $foundShas[] = $commit->getSha();
+        }
+
+        $toBeCreatedShas = array_diff($sha, $foundShas);
+        $newCommits = [];
+        foreach ($toBeCreatedShas as $toBeCreatedSha) {
+            $newCommits[] = $newCommit = $this->commitsRepository->create([
+                // TODO define how to handle default creation values such as this one
+                'branch' => 'master',
+                'date' => null,
+                // 'entry_id' => $entry->getId(),
+                'sha' => $toBeCreatedSha,
+            ]);
+
+            $this->getEntityManager()->persist($newCommit);
+        }
+
+        // associate the entry
+        $commits = array_merge($commits, $newCommits);
+        foreach ($commits as $commit) {
+            $entry->addCommit($commit);
+        }
+
+        $this->getEntityManager()->persist($entry);
+        $this->getEntityManager()->flush();
+
+        return $entry;
     }
 
     // /**
