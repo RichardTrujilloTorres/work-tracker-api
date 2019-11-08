@@ -77,6 +77,35 @@ class EntriesController extends BaseController
     }
 
     /**
+     * @Route("api/entries/{id<\d+>}/associate", methods={"POST"}, name="api.entries.associate")
+     * @param $id
+     * @param Request $request
+     * @return JsonResponse
+     * @throws NotFoundException
+     */
+    public function associate($id, Request $request)
+    {
+        $entry = $this->getRepository()->find($id);
+        if (! $entry) {
+            throw new NotFoundException('Could not find entry with ID '. $id);
+        }
+
+        $content = json_decode($request->getContent());
+        $sha = @$content->sha;
+        if (empty($sha) || !is_array($sha)) {
+            return $this->jsonWithContext([
+                'message' => 'No valid sha specified',
+            ], Response::HTTP_BAD_REQUEST);
+        }
+
+        $entry = $this->getRepository()->associate($entry->getId(), $sha);
+
+        return $this->jsonWithContext([
+            'data' => compact('entry'),
+        ]);
+    }
+
+    /**
      * @return String
      */
     public function getEntity(): String
