@@ -30,9 +30,9 @@ class CommitRepository extends ServiceEntityRepository
     {
         $commit = new Commit();
         $commit->setBranch($data['branch']);
-        $commit->setRepository($data['repository']);
-        $commit->setCommitsNumber((int) $data['commits']);
+        $commit->setRepository(@$data['repository']);
         $commit->setDate(new \DateTime($data['date']));
+        $commit->setSha(@$data['sha']);
 
         if (! empty($data['entry_id'])) {
             $entryRepository = $this->getEntityManager()->getRepository(Entry::class);
