@@ -82,6 +82,22 @@ class CommitRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @param array $sha
+     * @return array
+     */
+    public function findBySha(array $sha): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.sha IN (:sha)')
+            ->setParameter('sha', $sha)
+            ->orderBy('c.id', 'ASC')
+            ->setMaxResults(self::DEFAULT_MAX_RESULTS)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Commit[] Returns an array of Commit objects
     //  */
