@@ -27,11 +27,6 @@ class Commit
     private $branch;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $commitsNumber;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $date;
@@ -40,6 +35,11 @@ class Commit
      * @ORM\ManyToOne(targetEntity="App\Entity\Entry", inversedBy="commits")
      */
     private $entry;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $sha;
 
     public function getId(): ?int
     {
@@ -70,18 +70,6 @@ class Commit
         return $this;
     }
 
-    public function getCommitsNumber(): ?int
-    {
-        return $this->commitsNumber;
-    }
-
-    public function setCommitsNumber(int $commits): self
-    {
-        $this->commitsNumber = $commits;
-
-        return $this;
-    }
-
     public function getDate(): ?\DateTimeInterface
     {
         return $this->date;
@@ -102,6 +90,18 @@ class Commit
     public function setEntry(?Entry $entry): self
     {
         $this->entry = $entry;
+
+        return $this;
+    }
+
+    public function getSha(): ?string
+    {
+        return $this->sha;
+    }
+
+    public function setSha(?string $sha): self
+    {
+        $this->sha = $sha;
 
         return $this;
     }
