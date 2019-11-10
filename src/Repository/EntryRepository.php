@@ -98,21 +98,12 @@ class EntryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $id
      * @param array $sha
-     * @return Entry|null
-     * @throws NotFoundException
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @param array $commits
+     * @return array
      */
-    public function associate(int $id, array $sha)
+    protected function getToBeCreatedShas(array $sha, array $commits): array
     {
-        $entry = $this->find($id);
-        if (! $entry) {
-            throw new NotFoundException('Could not find entry with ID '. $id);
-        }
-
-        $commits = $this->commitsRepository->findBySha($sha);
         $foundShas = [];
         /**
          * @var $commit Commit
@@ -128,6 +119,28 @@ class EntryRepository extends ServiceEntityRepository
                 $toBeCreatedShas[] = $single;
             }
         }
+
+        return $toBeCreatedShas;
+    }
+
+    /**
+     * @param int $id
+     * @param array $sha
+     * @return Entry|null
+     * @throws NotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function associate(int $id, array $sha)
+    {
+        $entry = $this->find($id);
+        if (! $entry) {
+            throw new NotFoundException('Could not find entry with ID '. $id);
+        }
+
+        $commits = $this->commitsRepository->findBySha($sha);
+
+        $toBeCreatedShas = $this->getToBeCreatedShas($sha, $commits);
 
         // create them
         $newCommits = [];
