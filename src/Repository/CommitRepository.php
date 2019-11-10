@@ -26,6 +26,13 @@ class CommitRepository extends ServiceEntityRepository
         parent::__construct($registry, Commit::class);
     }
 
+    /**
+     * @param array $data
+     * @return Commit
+     * @throws NotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function create(array $data): Commit
     {
         $commit = new Commit();
