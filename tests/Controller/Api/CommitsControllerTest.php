@@ -18,7 +18,7 @@ class CommitsControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
+                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
             ]);
@@ -37,7 +37,7 @@ class CommitsControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
+                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
             ]);
@@ -73,7 +73,7 @@ class CommitsControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
+                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
             ]);
