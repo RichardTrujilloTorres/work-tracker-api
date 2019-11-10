@@ -44,7 +44,7 @@ class CommitsControllerTest extends BaseControllerTest
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $this->assertContains('commits', $this->client->getResponse()->getContent());
+        $this->assertContains('commit', $this->client->getResponse()->getContent());
 
         // test content matching through direct DB retrieve
         /**
