@@ -8,7 +8,6 @@ use App\Exception\NotFoundException;
 use App\Repository\Traits\Deletes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * @method Entry|null find($id, $lockMode = null, $lockVersion = null)
@@ -34,6 +33,7 @@ class EntryRepository extends ServiceEntityRepository
     /**
      * @param array $data
      * @return Entry
+     * @throws NotFoundException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -44,10 +44,40 @@ class EntryRepository extends ServiceEntityRepository
         $entry->setStartTime(new \DateTime(@$data['start_time']));
         $entry->setEndTime(new \DateTime(@$data['end_time']));
 
+
         $this->getEntityManager()->persist($entry);
         $this->getEntityManager()->flush();
 
+        // add commits if specified
+        if (! empty(@$data['commits'])) {
+            $shas = $this->getShasFromCommits($data['commits']);
+            $this->associate($entry->getId(), $shas);
+        }
+
+        $this->getEntityManager()->flush();
+
         return $entry;
+    }
+
+    /**
+     * @param array $commits
+     * @return array
+     */
+    protected function getShasFromCommits(array $commits): array
+    {
+        $shas = [];
+        foreach ($commits as $commit) {
+            if (! empty(@$commit->sha)) {
+                $shas[] = [
+                    'sha' => $commit->sha,
+                    'branch' => $commit->branch,
+                    'repository' => $commit->repository,
+                    'date' => $commit->date,
+                ];
+            }
+        }
+
+        return $shas;
     }
 
     /**
@@ -67,6 +97,14 @@ class EntryRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
+    /**
+     * @param int $id
+     * @param array $sha
+     * @return Entry|null
+     * @throws NotFoundException
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function associate(int $id, array $sha)
     {
         $entry = $this->find($id);
@@ -83,15 +121,22 @@ class EntryRepository extends ServiceEntityRepository
             $foundShas[] = $commit->getSha();
         }
 
-        $toBeCreatedShas = array_diff($sha, $foundShas);
+        // define commits to be created
+        $toBeCreatedShas = [];
+        foreach ($sha as $single) {
+            if (! in_array($single['sha'], $foundShas)) {
+                $toBeCreatedShas[] = $single;
+            }
+        }
+
+        // create them
         $newCommits = [];
         foreach ($toBeCreatedShas as $toBeCreatedSha) {
             $newCommits[] = $newCommit = $this->commitsRepository->create([
-                // TODO define how to handle default creation values such as this one
-                'branch' => 'master',
-                'date' => null,
-                // 'entry_id' => $entry->getId(),
-                'sha' => $toBeCreatedSha,
+                'repository' => @$toBeCreatedSha['repository'],
+                'branch' => @$toBeCreatedSha['branch'],
+                'date' => @$toBeCreatedSha['date'],
+                'sha' => $toBeCreatedSha['sha'],
             ]);
 
             $this->getEntityManager()->persist($newCommit);
