@@ -3,7 +3,11 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\Contracts\BaseControllerContract;
+use Knp\Component\Pager\Paginator;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
@@ -13,6 +17,27 @@ use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
  */
 abstract class BaseController extends AbstractController implements BaseControllerContract
 {
+    /**
+     * @var Request
+     */
+    protected $request;
+
+    /**
+     * @var PaginatorInterface
+     */
+    protected $paginator;
+
+    /**
+     * BaseController constructor.
+     * @param RequestStack $requestStack
+     * @param PaginatorInterface $paginatorBundle
+     */
+    public function __construct(RequestStack $requestStack, PaginatorInterface $paginatorBundle)
+    {
+        $this->request = $requestStack->getCurrentRequest();
+        $this->paginator = $paginatorBundle;
+    }
+
     /**
      * @param $data
      * @param int $status
@@ -28,6 +53,37 @@ abstract class BaseController extends AbstractController implements BaseControll
             $this->getDefaultContext()
         );
     }
+
+    /**
+     * @param $data
+     * @param string $resourceKey
+     * @param int $status
+     * @param array $headers
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     */
+    public function paginatedJsonWithContext($data, string $resourceKey, $status = Response::HTTP_OK, $headers = [])
+    {
+        $page = $this->request->query->getInt('page', 1);
+        $perPage = $this->request->query->getInt('per_page', 10);
+
+        $pagination = $this->paginator->paginate(
+            $data,
+            $page,
+            $perPage
+        );
+
+        return $this->json(
+            [
+                'page' => $page,
+                'per_page' => $perPage,
+                'data' => [ $resourceKey => $pagination, ],
+            ],
+            $status,
+            $headers,
+            $this->getDefaultContext()
+        );
+    }
+
 
     /**
      * @return array

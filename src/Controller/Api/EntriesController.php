@@ -22,9 +22,10 @@ class EntriesController extends BaseController
     {
         $entries = $this->getRepository()->findAll();
 
-        return $this->jsonWithContext([
-            'data' => compact('entries'),
-        ]);
+        return $this->paginatedJsonWithContext(
+            $entries,
+            'entries'
+        );
     }
 
     /**

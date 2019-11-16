@@ -23,7 +23,10 @@ class CommitsController extends BaseController
     {
         $commits = $this->getRepository()->findAll();
 
-        return $this->jsonWithContext(['data' => compact('commits')]);
+        return $this->paginatedJsonWithContext(
+            $commits,
+            'commits'
+        );
     }
 
     /**
