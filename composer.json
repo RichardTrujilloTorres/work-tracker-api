@@ -4,11 +4,12 @@
     "require": {
         "php": "^7.1.3",
         "ext-ctype": "*",
-        "ext-json": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "api-platform/api-pack": "^1.2",
         "doctrine/doctrine-migrations-bundle": "^2.0",
         "knplabs/github-api": "^2.12",
+        "knplabs/knp-paginator-bundle": "^4.1",
         "lexik/jwt-authentication-bundle": "^2.6",
         "nelmio/cors-bundle": "^1.5",
         "php-http/guzzle6-adapter": "^1.1",
