@@ -3,11 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Normalizer\NormalizableInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CommitRepository")
  */
-class Commit
+class Commit implements NormalizableInterface
 {
     /**
      * @ORM\Id()
@@ -105,5 +107,17 @@ class Commit
         $this->sha = $sha;
 
         return $this;
+    }
+
+    public function normalize(NormalizerInterface $normalizer, $format = null, array $context = [])
+    {
+        return [
+            'id' => $this->getId(),
+            'sha' => $this->getSha(),
+            'repository' => $this->getRepository(),
+            'branch' => $this->getBranch(),
+            'date' => $this->getDate(),
+            'entry' => $this->getEntry() ? $this->getEntry()->getId() : null,
+        ];
     }
 }
