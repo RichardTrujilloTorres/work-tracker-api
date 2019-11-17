@@ -41,8 +41,8 @@ class EntryRepository extends ServiceEntityRepository
     {
         $entry = new Entry();
         $entry->setDescription($data['description']);
-        $entry->setStartTime(new \DateTime(@$data['start_time']));
-        $entry->setEndTime(new \DateTime(@$data['end_time']));
+        $entry->setStartTime(new \DateTime(@$data['startTime']));
+        $entry->setEndTime(new \DateTime(@$data['endTime']));
 
 
         $this->getEntityManager()->persist($entry);
