@@ -3,7 +3,6 @@
 namespace App\Controller\Api;
 
 use App\Controller\Api\Contracts\BaseControllerContract;
-use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
