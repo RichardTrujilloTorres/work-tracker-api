@@ -33,6 +33,7 @@ class Commit
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Entry", inversedBy="commits")
+     * @ORM\JoinColumn(name="entry_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $entry;
 
