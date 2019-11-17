@@ -63,7 +63,7 @@ abstract class BaseController extends AbstractController implements BaseControll
     public function paginatedJsonWithContext($data, string $resourceKey, $status = Response::HTTP_OK, $headers = [])
     {
         $page = $this->request->query->getInt('page', 1);
-        $perPage = $this->request->query->getInt('per_page', 10);
+        $perPage = $this->request->query->getInt('perPage', 10);
 
         $pagination = $this->paginator->paginate(
             $data,
@@ -74,7 +74,7 @@ abstract class BaseController extends AbstractController implements BaseControll
         return $this->json(
             [
                 'page' => $page,
-                'per_page' => $perPage,
+                'perPage' => $perPage,
                 'data' => [ $resourceKey => $pagination, ],
             ],
             $status,
