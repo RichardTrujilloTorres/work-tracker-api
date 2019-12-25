@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\Entity\Entry;
 use App\Exception\NotFoundException;
+use DateTime;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,22 @@ class EntriesController extends BaseController
             $entries,
             'entries'
         );
+    }
+
+    /**
+     * @Route("/api/entries/latest", methods={"GET"}, name="api.entries.latest")
+     */
+    public function latest()
+    {
+        $entries = $this->getRepository()
+            ->getBetween(
+                new DateTime('-6 months'),
+                new DateTime()
+            );
+
+        return $this->jsonWithContext([
+            'data' => compact('entries'),
+        ]);
     }
 
     /**

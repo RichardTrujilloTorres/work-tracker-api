@@ -28,6 +28,25 @@ class EntriesControllerTest extends BaseControllerTest
     }
 
     /**
+     * @test Latest action
+     */
+    public function latest()
+    {
+        $this->client->request('GET', '/api/entries/latest',
+            [],
+            [],
+            [
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
+                'CONTENT_TYPE' => 'application/json',
+                'ACCEPT_ENCODING' => 'application/json',
+            ]);
+
+        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $this->assertContains('entries', $this->client->getResponse()->getContent());
+    }
+
+    /**
      * @test Show action.
      */
     public function testShow()
