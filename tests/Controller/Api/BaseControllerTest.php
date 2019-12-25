@@ -57,8 +57,8 @@ abstract class BaseControllerTest extends WebTestCase
             'ACCEPT_ENCODING' => 'application/json',
         ],
         json_encode([
-            'username' => 'richard.trujillo.torres@gmail.com',
-            'password' => 'secret',
+            'username' => 'test@test.com',
+            'password' => 'test',
         ])
         );
 
