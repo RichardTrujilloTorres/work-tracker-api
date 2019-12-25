@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Profile;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -25,7 +26,13 @@ class UserFixtures extends Fixture
             'test'
         ));
 
+        $profile = new Profile();
+        $profile->setFirstname('Richard');
+        $profile->setLastname('Trujillo');
+        $profile->setUser($user);
+
         $manager->persist($user);
+        $manager->persist($profile);
 
         $manager->flush();
     }
