@@ -184,15 +184,22 @@ class EntryRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Entry
+    /**
+     * @param $start
+     * @param $end
+     * @return array|null
+     */
+    public function getBetween($start, $end): ?array
     {
         return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('e.start_time >= :start')
+            ->andWhere('e.start_time <= :end')
+            ->setParameters([
+                'start' => $start,
+                'end' => $end,
+            ])
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
-    */
 }
