@@ -69,6 +69,10 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
+        ],
+        "phpcs": [
+            "./vendor/bin/phpcbf --standard=PSR2 src tests",
+            "./vendor/bin/phpcs --standard=PSR2 --report=full src tests"
         ]
     },
     "conflict": {
