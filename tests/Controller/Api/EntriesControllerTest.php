@@ -13,14 +13,17 @@ class EntriesControllerTest extends BaseControllerTest
      */
     public function index()
     {
-        $this->client->request('GET', '/api/entries',
+        $this->client->request(
+            'GET',
+            '/api/entries',
             [],
             [],
             [
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
-            ]);
+            ]
+        );
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -32,14 +35,17 @@ class EntriesControllerTest extends BaseControllerTest
      */
     public function latest()
     {
-        $this->client->request('GET', '/api/entries/latest',
+        $this->client->request(
+            'GET',
+            '/api/entries/latest',
             [],
             [],
             [
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
-            ]);
+            ]
+        );
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -51,14 +57,17 @@ class EntriesControllerTest extends BaseControllerTest
      */
     public function testShow()
     {
-        $this->client->request('GET', '/api/entries/1',
+        $this->client->request(
+            'GET',
+            '/api/entries/1',
             [],
             [],
             [
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
-            ]);
+            ]
+        );
 
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
@@ -87,14 +96,17 @@ class EntriesControllerTest extends BaseControllerTest
     {
         $nonExistingEntryId = 999999;
 
-        $this->client->request('GET', '/api/entries/' . $nonExistingEntryId,
+        $this->client->request(
+            'GET',
+            '/api/entries/' . $nonExistingEntryId,
             [],
             [],
             [
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
-            ]);
+            ]
+        );
 
         $this->assertContains(
             (new NotFoundException('Could not find entry with ID '. $nonExistingEntryId))->getMessage(),

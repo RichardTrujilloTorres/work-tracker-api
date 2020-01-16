@@ -80,7 +80,9 @@ class RepositoriesController extends AbstractController
     }
 
     /**
-     * @Route("/api/github/repositories/{repository}/branches", methods={"GET"}, name="api.github.repositories.branches.index")
+     * @Route("/api/github/repositories/{repository}/branches",
+     *     methods={"GET"},
+     *     name="api.github.repositories.branches.index")
      * @param string $repository
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */

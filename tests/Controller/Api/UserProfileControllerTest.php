@@ -66,14 +66,17 @@ class UserProfileControllerTest extends BaseControllerTest
      */
     public function returnsBadRequestOnMissingUsername()
     {
-        $this->client->request('POST', '/api/user/profile',
+        $this->client->request(
+            'POST',
+            '/api/user/profile',
             [],
             [],
             [
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
                 'CONTENT_TYPE' => 'application/json',
                 'ACCEPT_ENCODING' => 'application/json',
-            ]);
+            ]
+        );
 
         $this->assertEquals(Response::HTTP_BAD_REQUEST, $this->client->getResponse()->getStatusCode());
 

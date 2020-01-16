@@ -30,7 +30,7 @@ class CommitsController extends AbstractController
      * @param string $branch
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function index(string $repository,string $branch)
+    public function index(string $repository, string $branch)
     {
         try {
             $commits = $this->client->api('repo')
@@ -62,7 +62,7 @@ class CommitsController extends AbstractController
      * @param string $sha
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
-    public function show(string $repository,string $branch, string $sha)
+    public function show(string $repository, string $branch, string $sha)
     {
         try {
             $commit = $this->client->api('repo')

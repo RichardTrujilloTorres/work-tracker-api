@@ -89,7 +89,13 @@ abstract class BaseController extends AbstractController implements BaseControll
      */
     public function getDefaultContext()
     {
-        $dateCallback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+        $dateCallback = function (
+            $innerObject,
+            $outerObject,
+            string $attributeName,
+            string $format = null,
+            array $context = []
+        ) {
             return $innerObject instanceof \DateTime ? $innerObject->format(\DateTime::ISO8601) : '';
         };
 

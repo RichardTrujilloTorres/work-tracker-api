@@ -50,16 +50,16 @@ abstract class BaseControllerTest extends WebTestCase
         $result = $this->client->request(
             'POST',
             '/api/login_check',
-        [],
-        [],
-        [
+            [],
+            [],
+            [
             'CONTENT_TYPE' => 'application/json',
             'ACCEPT_ENCODING' => 'application/json',
-        ],
-        json_encode([
+            ],
+            json_encode([
             'username' => 'test@test.com',
             'password' => 'test',
-        ])
+            ])
         );
 
         $content = json_decode($this->client->getResponse()->getContent());
@@ -71,7 +71,13 @@ abstract class BaseControllerTest extends WebTestCase
      */
     protected function getDefaultContext()
     {
-        $dateCallback = function ($innerObject, $outerObject, string $attributeName, string $format = null, array $context = []) {
+        $dateCallback = function (
+            $innerObject,
+            $outerObject,
+            string $attributeName,
+            string $format = null,
+            array $context = []
+        ) {
             return $innerObject instanceof \DateTime ? $innerObject->format(\DateTime::ISO8601) : '';
         };
 
