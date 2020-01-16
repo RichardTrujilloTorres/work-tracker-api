@@ -22,7 +22,8 @@ class UserProfileController extends BaseController
      */
     public function profile(Request $request)
     {
-        $username = $request->request->get('username');
+        $content = json_decode($request->getContent());
+        $username = $content->username;
         if (empty($username)) {
             return $this->jsonWithContext([
                 'message' => 'No username specified',
@@ -33,7 +34,7 @@ class UserProfileController extends BaseController
          * @var User $user
          */
         $user = $this->getRepository()->findOneBy([
-            'email' => $request->get('username'),
+            'email' => $username,
         ]);
 
         if (empty($user)) {
@@ -48,7 +49,9 @@ class UserProfileController extends BaseController
             : null;
 
         return $this->jsonWithContext([
-            'profile' => $profile,
+            'data' => [
+                'profile' => $profile,
+            ]
         ]);
     }
 
