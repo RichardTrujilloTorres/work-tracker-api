@@ -12,18 +12,18 @@ class EntriesFixtures extends Fixture
     {
         return [
             [
-                'startTime' => '2019-08-19 8:37',
-                'endTime' => '2019-08-19 10:40',
+                'startTime'   => '2019-08-19 8:37',
+                'endTime'     => '2019-08-19 10:40',
                 'description' => 'Order return resources',
             ],
             [
-                'startTime' => '2019-08-19 8:37',
-                'endTime' => '2019-08-19 9:05',
+                'startTime'   => '2019-08-19 8:37',
+                'endTime'     => '2019-08-19 9:05',
                 'description' => 'Api Platform review',
             ],
             [
-                'startTime' => '2019-09-07 18:02',
-                'endTime' => '2019-00-07 21:05',
+                'startTime'   => '2019-09-07 18:02',
+                'endTime'     => '2019-00-07 21:05',
                 'description' => 'Work Tracker: Travis setup',
             ],
         ];

@@ -8,8 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 
 /**
- * Class ExceptionListener
- * @package App\EventListener
+ * Class ExceptionListener.
  */
 class ExceptionListener
 {
@@ -22,14 +21,14 @@ class ExceptionListener
         if ($exception instanceof NotFoundException) {
             $event->setResponse(new JsonResponse([
                 'message' => $exception->getMessage(),
-                'status' => 'error'
+                'status'  => 'error',
             ], 404));
         }
 
         if ($exception instanceof ParamMissingException) {
             $event->setResponse(new JsonResponse([
                 'message' => $exception->getMessage(),
-                'status' => 'error'
+                'status'  => 'error',
             ], 422));
         }
     }

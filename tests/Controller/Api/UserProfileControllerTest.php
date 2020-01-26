@@ -6,8 +6,7 @@ use App\Exception\NotFoundException;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Class UserProfileControllerTest
- * @package App\Tests\Controller\Api
+ * Class UserProfileControllerTest.
  */
 class UserProfileControllerTest extends BaseControllerTest
 {
@@ -24,9 +23,9 @@ class UserProfileControllerTest extends BaseControllerTest
             ],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -48,9 +47,9 @@ class UserProfileControllerTest extends BaseControllerTest
             ],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -72,9 +71,9 @@ class UserProfileControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 

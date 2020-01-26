@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class EntriesController
- * @package App\Controller\Api
+ * Class EntriesController.
  */
 class EntriesController extends BaseController
 {
@@ -47,15 +46,18 @@ class EntriesController extends BaseController
 
     /**
      * @Route("/api/entries/{id<\d+>}", methods={"GET"}, name="api.entries.show")
+     *
      * @param int $id
-     * @return JsonResponse
+     *
      * @throws NotFoundException
+     *
+     * @return JsonResponse
      */
     public function show(int $id)
     {
         $entry = $this->getRepository()->find($id);
-        if (! $entry) {
-            throw new NotFoundException('Could not find entry with ID '. $id);
+        if (!$entry) {
+            throw new NotFoundException('Could not find entry with ID '.$id);
         }
 
         return $this->jsonWithContext([
@@ -65,7 +67,9 @@ class EntriesController extends BaseController
 
     /**
      * @Route("api/entries", methods={"POST"}, name="api.entries.store")
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store(Request $request)
@@ -76,13 +80,15 @@ class EntriesController extends BaseController
         $entry = $this->getRepository()->create((array) $content);
 
         return $this->jsonWithContext([
-            'data' => compact('entry')
+            'data' => compact('entry'),
         ], Response::HTTP_CREATED);
     }
 
     /**
      * @Route("api/entries/{id<\d+>}", methods={"DELETE"}, name="api.entries.delete")
+     *
      * @param $id
+     *
      * @return JsonResponse
      */
     public function delete($id)
@@ -96,16 +102,19 @@ class EntriesController extends BaseController
 
     /**
      * @Route("api/entries/{id<\d+>}/associate", methods={"POST"}, name="api.entries.associate")
+     *
      * @param $id
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws NotFoundException
+     *
+     * @return JsonResponse
      */
     public function associate($id, Request $request)
     {
         $entry = $this->getRepository()->find($id);
-        if (! $entry) {
-            throw new NotFoundException('Could not find entry with ID '. $id);
+        if (!$entry) {
+            throw new NotFoundException('Could not find entry with ID '.$id);
         }
 
         $content = json_decode($request->getContent());
@@ -124,9 +133,9 @@ class EntriesController extends BaseController
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getEntity(): String
+    public function getEntity(): string
     {
         return Entry::class;
     }

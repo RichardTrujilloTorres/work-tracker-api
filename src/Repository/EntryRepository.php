@@ -32,10 +32,12 @@ class EntryRepository extends ServiceEntityRepository
 
     /**
      * @param array $data
-     * @return Entry
+     *
      * @throws NotFoundException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return Entry
      */
     public function create(array $data): Entry
     {
@@ -44,12 +46,11 @@ class EntryRepository extends ServiceEntityRepository
         $entry->setStartTime(new \DateTime(@$data['startTime']));
         $entry->setEndTime(new \DateTime(@$data['endTime']));
 
-
         $this->getEntityManager()->persist($entry);
         $this->getEntityManager()->flush();
 
         // add commits if specified
-        if (! empty(@$data['commits'])) {
+        if (!empty(@$data['commits'])) {
             $shas = $this->getShasFromCommits($data['commits']);
             $this->associate($entry->getId(), $shas);
         }
@@ -61,18 +62,19 @@ class EntryRepository extends ServiceEntityRepository
 
     /**
      * @param array $commits
+     *
      * @return array
      */
     protected function getShasFromCommits(array $commits): array
     {
         $shas = [];
         foreach ($commits as $commit) {
-            if (! empty(@$commit->sha)) {
+            if (!empty(@$commit->sha)) {
                 $shas[] = [
-                    'sha' => $commit->sha,
-                    'branch' => $commit->branch,
+                    'sha'        => $commit->sha,
+                    'branch'     => $commit->branch,
                     'repository' => $commit->repository,
-                    'date' => $commit->date,
+                    'date'       => $commit->date,
                 ];
             }
         }
@@ -82,6 +84,7 @@ class EntryRepository extends ServiceEntityRepository
 
     /**
      * @param int $id
+     *
      * @throws NotFoundException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
@@ -89,8 +92,8 @@ class EntryRepository extends ServiceEntityRepository
     public function delete(int $id)
     {
         $entry = $this->find($id);
-        if (! $entry) {
-            throw new NotFoundException('Could not find entry with ID '. $id);
+        if (!$entry) {
+            throw new NotFoundException('Could not find entry with ID '.$id);
         }
 
         $this->getEntityManager()->remove($entry);
@@ -100,13 +103,14 @@ class EntryRepository extends ServiceEntityRepository
     /**
      * @param array $sha
      * @param array $commits
+     *
      * @return array
      */
     protected function getToBeCreatedShas(array $sha, array $commits): array
     {
         $foundShas = [];
         /**
-         * @var $commit Commit
+         * @var Commit
          */
         foreach ($commits as $commit) {
             $foundShas[] = $commit->getSha();
@@ -115,7 +119,7 @@ class EntryRepository extends ServiceEntityRepository
         // define commits to be created
         $toBeCreatedShas = [];
         foreach ($sha as $single) {
-            if (! in_array($single['sha'], $foundShas)) {
+            if (!in_array($single['sha'], $foundShas)) {
                 $toBeCreatedShas[] = $single;
             }
         }
@@ -124,18 +128,20 @@ class EntryRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param int $id
+     * @param int   $id
      * @param array $sha
-     * @return Entry|null
+     *
      * @throws NotFoundException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return Entry|null
      */
     public function associate(int $id, array $sha)
     {
         $entry = $this->find($id);
-        if (! $entry) {
-            throw new NotFoundException('Could not find entry with ID '. $id);
+        if (!$entry) {
+            throw new NotFoundException('Could not find entry with ID '.$id);
         }
 
         $commits = $this->commitsRepository->findBySha($sha);
@@ -147,9 +153,9 @@ class EntryRepository extends ServiceEntityRepository
         foreach ($toBeCreatedShas as $toBeCreatedSha) {
             $newCommits[] = $newCommit = $this->commitsRepository->create([
                 'repository' => @$toBeCreatedSha['repository'],
-                'branch' => @$toBeCreatedSha['branch'],
-                'date' => @$toBeCreatedSha['date'],
-                'sha' => $toBeCreatedSha['sha'],
+                'branch'     => @$toBeCreatedSha['branch'],
+                'date'       => @$toBeCreatedSha['date'],
+                'sha'        => $toBeCreatedSha['sha'],
             ]);
 
             $this->getEntityManager()->persist($newCommit);
@@ -187,6 +193,7 @@ class EntryRepository extends ServiceEntityRepository
     /**
      * @param $start
      * @param $end
+     *
      * @return array|null
      */
     public function getBetween($start, $end): ?array
@@ -196,10 +203,9 @@ class EntryRepository extends ServiceEntityRepository
             ->andWhere('e.start_time <= :end')
             ->setParameters([
                 'start' => $start,
-                'end' => $end,
+                'end'   => $end,
             ])
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
 }

@@ -9,16 +9,18 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class UserProfileController
- * @package App\Controller\Api
+ * Class UserProfileController.
  */
 class UserProfileController extends BaseController
 {
     /**
      * @Route("/api/user/profile", methods={"POST"}, name="api.user.profile")
+     *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     *
      * @throws NotFoundException
+     *
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function profile(Request $request)
     {
@@ -31,7 +33,7 @@ class UserProfileController extends BaseController
         }
 
         /**
-         * @var User $user
+         * @var User
          */
         $user = $this->getRepository()->findOneBy([
             'email' => $username,
@@ -44,21 +46,21 @@ class UserProfileController extends BaseController
         $profile = $user->getProfile() ?
             [
                 'firstname' => $user->getProfile()->getFirstname(),
-                'lastname' => $user->getProfile()->getLastname(),
+                'lastname'  => $user->getProfile()->getLastname(),
             ]
             : null;
 
         return $this->jsonWithContext([
             'data' => [
                 'profile' => $profile,
-            ]
+            ],
         ]);
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getEntity(): String
+    public function getEntity(): string
     {
         return User::class;
     }

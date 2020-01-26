@@ -26,9 +26,8 @@ abstract class BaseControllerTest extends WebTestCase
      */
     protected $token;
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function setUp(): void
     {
@@ -53,12 +52,12 @@ abstract class BaseControllerTest extends WebTestCase
             [],
             [],
             [
-            'CONTENT_TYPE' => 'application/json',
-            'ACCEPT_ENCODING' => 'application/json',
+                'CONTENT_TYPE'    => 'application/json',
+                'ACCEPT_ENCODING' => 'application/json',
             ],
             json_encode([
-            'username' => 'test@test.com',
-            'password' => 'test',
+                'username' => 'test@test.com',
+                'password' => 'test',
             ])
         );
 
@@ -95,8 +94,9 @@ abstract class BaseControllerTest extends WebTestCase
 
     /**
      * @param $data
-     * @param int $status
+     * @param int   $status
      * @param array $headers
+     *
      * @return JsonResponse
      */
     public function jsonWithContext($data, $status = Response::HTTP_OK, $headers = [])
@@ -110,11 +110,13 @@ abstract class BaseControllerTest extends WebTestCase
     }
 
     // TODO eliminate this duplication
+
     /**
      * @param $data
-     * @param int $status
+     * @param int   $status
      * @param array $headers
      * @param array $context
+     *
      * @return JsonResponse
      */
     protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse

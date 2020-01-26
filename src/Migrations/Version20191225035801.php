@@ -12,12 +12,12 @@ use Doctrine\Migrations\AbstractMigration;
  */
 final class Version20191225035801 extends AbstractMigration
 {
-    public function getDescription() : string
+    public function getDescription(): string
     {
         return '';
     }
 
-    public function up(Schema $schema) : void
+    public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf(
@@ -26,17 +26,17 @@ final class Version20191225035801 extends AbstractMigration
         );
 
         $this->addSql(
-            'CREATE TABLE profile (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(255) DEFAULT NULL, ' .
-            'lastname VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 ' .
+            'CREATE TABLE profile (id INT AUTO_INCREMENT NOT NULL, firstname VARCHAR(255) DEFAULT NULL, '.
+            'lastname VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 '.
             'COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB'
         );
         $this->addSql('ALTER TABLE user ADD profile_id INT DEFAULT NULL');
-        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649CCFA12B8 FOREIGN KEY (profile_id) ' .
+        $this->addSql('ALTER TABLE user ADD CONSTRAINT FK_8D93D649CCFA12B8 FOREIGN KEY (profile_id) '.
             'REFERENCES profile (id)');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649CCFA12B8 ON user (profile_id)');
     }
 
-    public function down(Schema $schema) : void
+    public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf(

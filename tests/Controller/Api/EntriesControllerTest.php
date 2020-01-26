@@ -19,9 +19,9 @@ class EntriesControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -41,9 +41,9 @@ class EntriesControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -63,9 +63,9 @@ class EntriesControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -75,7 +75,7 @@ class EntriesControllerTest extends BaseControllerTest
 
         // test content matching through direct DB retrieve
         /**
-         * @var Entry $entry
+         * @var Entry
          */
         $entry = $this->entityManager
             ->getRepository(Entry::class)
@@ -98,18 +98,18 @@ class EntriesControllerTest extends BaseControllerTest
 
         $this->client->request(
             'GET',
-            '/api/entries/' . $nonExistingEntryId,
+            '/api/entries/'.$nonExistingEntryId,
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . $this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
         $this->assertContains(
-            (new NotFoundException('Could not find entry with ID '. $nonExistingEntryId))->getMessage(),
+            (new NotFoundException('Could not find entry with ID '.$nonExistingEntryId))->getMessage(),
             $this->client->getResponse()->getContent()
         );
     }

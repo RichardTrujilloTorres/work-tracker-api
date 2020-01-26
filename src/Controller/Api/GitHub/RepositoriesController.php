@@ -9,8 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class RepositoriesController
- * @package App\Controller\Api\GitHub
+ * Class RepositoriesController.
  */
 class RepositoriesController extends AbstractController
 {
@@ -26,6 +25,7 @@ class RepositoriesController extends AbstractController
 
     /**
      * @Route("/api/github/repositories", methods={"GET"}, name="api.github.repositories.index")
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function index()
@@ -36,7 +36,7 @@ class RepositoriesController extends AbstractController
         } catch (RuntimeException $e) {
             return $this->json(
                 [
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
@@ -44,7 +44,7 @@ class RepositoriesController extends AbstractController
 
         return $this->json(
             [
-                'data' => compact('repositories')
+                'data' => compact('repositories'),
             ],
             Response::HTTP_OK,
             []
@@ -53,7 +53,9 @@ class RepositoriesController extends AbstractController
 
     /**
      * @Route("/api/github/repositories/{repository}", methods={"GET"}, name="api.github.repositories.show")
+     *
      * @param string $repository
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function show(string $repository)
@@ -64,7 +66,7 @@ class RepositoriesController extends AbstractController
         } catch (RuntimeException $e) {
             return $this->json(
                 [
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
@@ -72,7 +74,7 @@ class RepositoriesController extends AbstractController
 
         return $this->json(
             [
-                'data' => compact('repository')
+                'data' => compact('repository'),
             ],
             Response::HTTP_OK,
             []
@@ -83,7 +85,9 @@ class RepositoriesController extends AbstractController
      * @Route("/api/github/repositories/{repository}/branches",
      *     methods={"GET"},
      *     name="api.github.repositories.branches.index")
+     *
      * @param string $repository
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function branches(string $repository)
@@ -94,7 +98,7 @@ class RepositoriesController extends AbstractController
         } catch (RuntimeException $e) {
             return $this->json(
                 [
-                    'message' => $e->getMessage()
+                    'message' => $e->getMessage(),
                 ],
                 Response::HTTP_INTERNAL_SERVER_ERROR
             );
@@ -102,7 +106,7 @@ class RepositoriesController extends AbstractController
 
         return $this->json(
             [
-                'data' => compact('branches')
+                'data' => compact('branches'),
             ],
             Response::HTTP_OK,
             []

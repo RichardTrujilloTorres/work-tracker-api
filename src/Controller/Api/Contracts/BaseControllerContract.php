@@ -2,18 +2,15 @@
 
 namespace App\Controller\Api\Contracts;
 
-use Doctrine\Common\Persistence\ObjectRepository;
-
 /**
- * Interface BaseControllerContract
- * @package App\Controller\Api\Contracts
+ * Interface BaseControllerContract.
  */
 interface BaseControllerContract
 {
     /**
-     * @return String
+     * @return string
      */
-    public function getEntity(): String;
+    public function getEntity(): string;
 
     /**
      * @return mixed

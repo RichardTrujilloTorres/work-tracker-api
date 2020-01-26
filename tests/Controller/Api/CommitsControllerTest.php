@@ -20,9 +20,9 @@ class CommitsControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.@$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -42,9 +42,9 @@ class CommitsControllerTest extends BaseControllerTest
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.@$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
@@ -54,7 +54,7 @@ class CommitsControllerTest extends BaseControllerTest
 
         // test content matching through direct DB retrieve
         /**
-         * @var Entry $entry
+         * @var Entry
          */
         $commit = $this->entityManager
             ->getRepository(Commit::class)
@@ -77,18 +77,18 @@ class CommitsControllerTest extends BaseControllerTest
 
         $this->client->request(
             'GET',
-            '/api/commits/' . $nonExistingEntryId,
+            '/api/commits/'.$nonExistingEntryId,
             [],
             [],
             [
-                'HTTP_AUTHORIZATION' => 'Bearer ' . @$this->token,
-                'CONTENT_TYPE' => 'application/json',
-                'ACCEPT_ENCODING' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer '.@$this->token,
+                'CONTENT_TYPE'       => 'application/json',
+                'ACCEPT_ENCODING'    => 'application/json',
             ]
         );
 
         $this->assertContains(
-            (new NotFoundException('Could not find commit with ID '. $nonExistingEntryId))->getMessage(),
+            (new NotFoundException('Could not find commit with ID '.$nonExistingEntryId))->getMessage(),
             $this->client->getResponse()->getContent()
         );
     }

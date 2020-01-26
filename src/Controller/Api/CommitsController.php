@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class CommitsController
- * @package App\Controller\Api
+ * Class CommitsController.
  */
 class CommitsController extends BaseController
 {
@@ -31,15 +30,18 @@ class CommitsController extends BaseController
 
     /**
      * @Route("/api/commits/{id<\d+>}", methods={"GET"}, name="api.commits.show")
+     *
      * @param int $id
-     * @return JsonResponse
+     *
      * @throws NotFoundException
+     *
+     * @return JsonResponse
      */
     public function show(int $id)
     {
         $commit = $this->getRepository()->find($id);
-        if (! $commit) {
-            throw new NotFoundException('Could not find commit with ID '. $id);
+        if (!$commit) {
+            throw new NotFoundException('Could not find commit with ID '.$id);
         }
 
         return $this->jsonWithContext(['data' => compact('commit')]);
@@ -47,14 +49,17 @@ class CommitsController extends BaseController
 
     /**
      * @Route("/api/commits/get-by-branch", methods={"GET"}, name="api.commits.get-by-branch")
+     *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ParamMissingException
+     *
+     * @return JsonResponse
      */
     public function getByBranch(Request $request)
     {
-        if (! $request->query->has('name') || empty($request->query->get('name'))) {
-            throw new ParamMissingException("Branch name missing");
+        if (!$request->query->has('name') || empty($request->query->get('name'))) {
+            throw new ParamMissingException('Branch name missing');
         }
 
         $commits = $this->getRepository()->findByBranch($request->query->get('name'));
@@ -66,14 +71,17 @@ class CommitsController extends BaseController
 
     /**
      * @Route("/api/commits/get-by-repository", methods={"GET"}, name="api.commits.get-by-repository")
+     *
      * @param Request $request
-     * @return JsonResponse
+     *
      * @throws ParamMissingException
+     *
+     * @return JsonResponse
      */
     public function getByRepository(Request $request)
     {
-        if (! $request->query->has('name') || empty($request->query->get('name'))) {
-            throw new ParamMissingException("Repository name missing");
+        if (!$request->query->has('name') || empty($request->query->get('name'))) {
+            throw new ParamMissingException('Repository name missing');
         }
 
         $commits = $this->getRepository()->findByRepository($request->query->get('name'));
@@ -85,7 +93,9 @@ class CommitsController extends BaseController
 
     /**
      * @Route("api/commits", methods={"POST"}, name="api.commits.store")
+     *
      * @param Request $request
+     *
      * @return JsonResponse
      */
     public function store(Request $request)
@@ -99,7 +109,9 @@ class CommitsController extends BaseController
 
     /**
      * @Route("api/commits/{id<\d+>}", methods={"DELETE"}, name="api.commits.delete")
+     *
      * @param $id
+     *
      * @return JsonResponse
      */
     public function delete($id)
@@ -112,9 +124,9 @@ class CommitsController extends BaseController
     }
 
     /**
-     * @return String
+     * @return string
      */
-    public function getEntity(): String
+    public function getEntity(): string
     {
         return Commit::class;
     }

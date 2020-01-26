@@ -11,8 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 /**
- * Class BaseController
- * @package App\Controller\Api
+ * Class BaseController.
  */
 abstract class BaseController extends AbstractController implements BaseControllerContract
 {
@@ -28,7 +27,8 @@ abstract class BaseController extends AbstractController implements BaseControll
 
     /**
      * BaseController constructor.
-     * @param RequestStack $requestStack
+     *
+     * @param RequestStack       $requestStack
      * @param PaginatorInterface $paginatorBundle
      */
     public function __construct(RequestStack $requestStack, PaginatorInterface $paginatorBundle)
@@ -39,8 +39,9 @@ abstract class BaseController extends AbstractController implements BaseControll
 
     /**
      * @param $data
-     * @param int $status
+     * @param int   $status
      * @param array $headers
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function jsonWithContext($data, $status = Response::HTTP_OK, $headers = [])
@@ -56,8 +57,9 @@ abstract class BaseController extends AbstractController implements BaseControll
     /**
      * @param $data
      * @param string $resourceKey
-     * @param int $status
-     * @param array $headers
+     * @param int    $status
+     * @param array  $headers
+     *
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      */
     public function paginatedJsonWithContext($data, string $resourceKey, $status = Response::HTTP_OK, $headers = [])
@@ -73,16 +75,15 @@ abstract class BaseController extends AbstractController implements BaseControll
 
         return $this->json(
             [
-                'page' => $page,
+                'page'    => $page,
                 'perPage' => $perPage,
-                'data' => [ $resourceKey => $pagination, ],
+                'data'    => [$resourceKey => $pagination],
             ],
             $status,
             $headers,
             $this->getDefaultContext()
         );
     }
-
 
     /**
      * @return array

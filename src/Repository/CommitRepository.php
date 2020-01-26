@@ -28,10 +28,12 @@ class CommitRepository extends ServiceEntityRepository
 
     /**
      * @param array $data
-     * @return Commit
+     *
      * @throws NotFoundException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     *
+     * @return Commit
      */
     public function create(array $data): Commit
     {
@@ -41,11 +43,11 @@ class CommitRepository extends ServiceEntityRepository
         $commit->setDate(new \DateTime($data['date']));
         $commit->setSha(@$data['sha']);
 
-        if (! empty($data['entry_id'])) {
+        if (!empty($data['entry_id'])) {
             $entryRepository = $this->getEntityManager()->getRepository(Entry::class);
             $entry = $entryRepository->find($data['entry_id']);
             if (empty($entry)) {
-                throw new NotFoundException("Could not find entry with ID ". $data['entry_id']);
+                throw new NotFoundException('Could not find entry with ID '.$data['entry_id']);
             }
 
             $commit->setEntry($entry);
@@ -59,6 +61,7 @@ class CommitRepository extends ServiceEntityRepository
 
     /**
      * @param string $name
+     *
      * @return array
      */
     public function findByBranch(string $name): array
@@ -69,12 +72,12 @@ class CommitRepository extends ServiceEntityRepository
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(self::DEFAULT_MAX_RESULTS)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
      * @param string $name
+     *
      * @return array
      */
     public function findByRepository(string $name): array
@@ -85,12 +88,12 @@ class CommitRepository extends ServiceEntityRepository
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(self::DEFAULT_MAX_RESULTS)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
      * @param array $sha
+     *
      * @return array
      */
     public function findBySha(array $sha): array
@@ -101,8 +104,7 @@ class CommitRepository extends ServiceEntityRepository
             ->orderBy('c.id', 'ASC')
             ->setMaxResults(self::DEFAULT_MAX_RESULTS)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     // /**

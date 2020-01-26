@@ -112,12 +112,12 @@ class Commit implements NormalizableInterface
     public function normalize(NormalizerInterface $normalizer, $format = null, array $context = [])
     {
         return [
-            'id' => $this->getId(),
-            'sha' => $this->getSha(),
+            'id'         => $this->getId(),
+            'sha'        => $this->getSha(),
             'repository' => $this->getRepository(),
-            'branch' => $this->getBranch(),
-            'date' => $this->getDate(),
-            'entry' => $this->getEntry() ? $this->getEntry()->getId() : null,
+            'branch'     => $this->getBranch(),
+            'date'       => $this->getDate(),
+            'entry'      => $this->getEntry() ? $this->getEntry()->getId() : null,
         ];
     }
 }

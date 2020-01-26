@@ -14,18 +14,19 @@ class CommitFixtures extends Fixture
         return [
             [
                 'repository' => 'work-tracker-api',
-                'branch' => 'master',
-                'date' => '2019-08-23 12:55',
-                'entry_id' => 2,
+                'branch'     => 'master',
+                'date'       => '2019-08-23 12:55',
+                'entry_id'   => 2,
             ],
             [
                 'repository' => 'work-tracker-api',
-                'branch' => 'master',
-                'date' => '2019-09-07 16:18',
-                'entry_id' => 2,
+                'branch'     => 'master',
+                'date'       => '2019-09-07 16:18',
+                'entry_id'   => 2,
             ],
         ];
     }
+
     public function load(ObjectManager $manager)
     {
         foreach ($this->getData() as $data) {
@@ -34,7 +35,7 @@ class CommitFixtures extends Fixture
             $commit->setBranch($data['branch']);
             $commit->setDate(new \DateTime($data['date']));
 
-            if (! empty(@$data['entry_id'])) {
+            if (!empty(@$data['entry_id'])) {
                 $entry = $manager->getRepository(Entry::class)
                     ->find(@$data['entry_id']);
 
